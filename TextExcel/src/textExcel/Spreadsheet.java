@@ -20,7 +20,15 @@ public class Spreadsheet implements Grid
 	@Override
 	public String processCommand(String command)
 	{
-		return command.fullCellText();
+		if(!command.contains(" ")) {
+			int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
+			int rowNum = Integer.parseInt(command.substring(1)) - 1;
+			return cellArr[rowNum][colNum].fullCellText();
+		}
+		
+		String[] commandArr = command.split(" ");
+		
+		return "";
 	}
 
 	@Override
