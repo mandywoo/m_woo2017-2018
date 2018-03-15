@@ -9,6 +9,12 @@ public class TextCell implements Cell{
 		return "\"" + strAnswer + "\"";
 	}
 	public String abbreviatedCellText() {
-		return strAnswer;
+		String finalStr = null;
+		if(strAnswer.length()>10) {
+			finalStr = String.format("[%1$.10s]", strAnswer);
+		}else if(strAnswer.length()<10) {
+			finalStr = String.format("[%1$-10-StrValue.length()s]", strAnswer);
+		}
+		return finalStr;
 	}
 }

@@ -12,7 +12,7 @@ public class TextExcel
 	{
 		Spreadsheet spreadsheet = new Spreadsheet();
 		Scanner scanner = new Scanner(System.in);
-		System.out.println(spreadsheet.getGridText());
+		////System.out.println(spreadsheet.getGridText());
 		//TestsALL.Helper th = new TestsALL.Helper();
 		//System.out.println(th.getText());
 		

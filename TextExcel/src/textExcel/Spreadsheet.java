@@ -20,15 +20,32 @@ public class Spreadsheet implements Grid
 	@Override
 	public String processCommand(String command)
 	{
-		if(!command.contains(" ")) {
-			int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
-			int rowNum = Integer.parseInt(command.substring(1)) - 1;
-			return cellArr[rowNum][colNum].fullCellText();
-		}
-		
 		String[] commandArr = command.split(" ");
+		int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
+		int rowNum = Integer.parseInt(commandArr[0].substring(1)) - 1;
+		if(!command.contains(" ")) {
+		----	if("clear".equals(commandArr[0])) {
+				Spreadsheet clearedGrid = new Spreadsheet();
+				//return STring of grid --- getGridText()
+				return "c";
+			}else {
+				return "a";
+				//return cellArr[rowNum][colNum].fullCellText();
+			}
+		}
+			
+		if(commandArr[2] instanceof String) {
+			TextCell textValue = new TextCell(commandArr[2]);
+			cellArr[rowNum][colNum] = textValue;
+			//AND THEN RETURN THE GRID WITH THIS TEXTVALUE IN IT ---getGridText()
+			return "b";
+		}
+			
 		
-		return "";
+		
+		
+		
+		return "wrong";
 	}
 
 	@Override
@@ -59,7 +76,7 @@ public class Spreadsheet implements Grid
 		}
 		grid += "   " + row1 + "|";
 		
-		
+		//IMPORTANTE CHANGE 10SPACES TO CELLS THAT HAVE BEEN FORMATTED
 		for(int i = 1; i <= NUM_ROWS; i++) {
 			String num = Integer.toString(i);
 			if(i < 10) {
