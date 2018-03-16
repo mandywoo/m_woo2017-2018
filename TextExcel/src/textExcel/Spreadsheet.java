@@ -10,10 +10,11 @@ public class Spreadsheet implements Grid
 	private int NUM_ROWS = 20;
 	private int NUM_COLS = 12;
 	private Cell[][] cellArr = new Cell[NUM_ROWS][NUM_COLS];
+	private EmptyCell newCell = new EmptyCell();
 	public Spreadsheet(){
 		for(int i = 0; i < cellArr.length; i++) {
 			for(int j = 0; j < cellArr[i].length; j++) {
-				EmptyCell newCell = new EmptyCell();
+				
 				cellArr[i][j] = newCell;
 			}
 		}
@@ -23,16 +24,31 @@ public class Spreadsheet implements Grid
 	public String processCommand(String command)
 	{
 		String[] commandArr = command.split(" ");
-		if("clear".equals(commandArr[0])) {
+		
+		if("clear".equals(commandArr[0]) && (commandArr[1] instanceof String)) {
+			int rowNum = Integer.parseInt(commandArr[1].substring(1)) - 1;
+			int colNum = Character.toUpperCase(commandArr[1].charAt(0)) - 'A';
+			cellArr[rowNum][colNum] = newCell;
+			return cellArr[rowNum][colNum].fullCellText() + "e";
+		}else if (!(commandArr[1] instanceof String)) {
 			for(int i = 0; i < cellArr.length; i++) {
 				for(int j = 0; j < cellArr[i].length; j++) {
-					EmptyCell newCell = new EmptyCell();
 					cellArr[i][j] = newCell;
 				}
 			}
 			//return STring of grid --- getGridText()
 			return "c";
 		}
+	
+//		if("clear".equals(commandArr[0])) {
+//			for(int i = 0; i < cellArr.length; i++) {
+//				for(int j = 0; j < cellArr[i].length; j++) {
+//					cellArr[i][j] = newCell;
+//				}
+//			}
+//			//return STring of grid --- getGridText()
+//			return "c";
+//		}
 		
 		int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
 		int rowNum = Integer.parseInt(commandArr[0].substring(1)) - 1;
