@@ -1,5 +1,7 @@
 package textExcel;
 
+import java.util.Arrays;
+
 // Update this file with your own code.
 
 public class Spreadsheet implements Grid
@@ -21,19 +23,25 @@ public class Spreadsheet implements Grid
 	public String processCommand(String command)
 	{
 		String[] commandArr = command.split(" ");
+		if("clear".equals(commandArr[0])) {
+			for(int i = 0; i < cellArr.length; i++) {
+				for(int j = 0; j < cellArr[i].length; j++) {
+					EmptyCell newCell = new EmptyCell();
+					cellArr[i][j] = newCell;
+				}
+			}
+			//return STring of grid --- getGridText()
+			return "c";
+		}
+		
 		int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
 		int rowNum = Integer.parseInt(commandArr[0].substring(1)) - 1;
+		
 		if(!command.contains(" ")) {
-		----	if("clear".equals(commandArr[0])) {
-				Spreadsheet clearedGrid = new Spreadsheet();
-				//return STring of grid --- getGridText()
-				return "c";
-			}else {
-				return "a";
-				//return cellArr[rowNum][colNum].fullCellText();
-			}
+			return "a";
+		
+			//return cellArr[rowNum][colNum].fullCellText();
 		}
-			
 		if(commandArr[2] instanceof String) {
 			TextCell textValue = new TextCell(commandArr[2]);
 			cellArr[rowNum][colNum] = textValue;
