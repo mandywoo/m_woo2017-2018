@@ -6,14 +6,14 @@ public class TextCell implements Cell{
 		this.strAnswer = strAnswer;
 	}
 	public String fullCellText() {
-		return "\"" + strAnswer + "\"";
+		return strAnswer;
 	}
 	public String abbreviatedCellText() {
 		String finalStr = null;
 		if(strAnswer.length()>10) {
-			finalStr = String.format("[%1$.10s]", strAnswer);
+			finalStr = strAnswer.substring(1, 11);
 		}else if(strAnswer.length()<10) {
-			finalStr = String.format("[%1$-10-StrValue.length()s]", strAnswer);
+			finalStr = (strAnswer + "          ").substring(1, 11);
 		}
 		return finalStr;
 	}
