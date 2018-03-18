@@ -24,50 +24,34 @@ public class Spreadsheet implements Grid
 	public String processCommand(String command)
 	{
 		String[] commandArr = command.split(" ");
+		int commandArrElem = 0;
+		int colNum = Character.toUpperCase(commandArr[commandArrElem].charAt(0)) - 'A';
+		int rowNum = Integer.parseInt(commandArr[commandArrElem].substring(1)) - 1;
 		
-		if("clear".equals(commandArr[0]) && (commandArr[1] instanceof String)) {
-			int rowNum = Integer.parseInt(commandArr[1].substring(1)) - 1;
-			int colNum = Character.toUpperCase(commandArr[1].charAt(0)) - 'A';
+		if(commandArr.length == 1) {
+			if(commandArr[0].equalsIgnoreCase("clear")) {
+				for(int i = 0; i < cellArr.length; i++) {
+					for(int j = 0; j < cellArr[i].length; j++) {
+						cellArr[i][j] = newCell;
+					}
+				}
+				//return STring of grid --- getGridText()
+				return "c";
+			}else {
+				return cellArr[rowNum][colNum].fullCellText();
+			}
+		}else if(commandArr.length == 2) {
+			commandArrElem = 1;
+//			int rowNum = Integer.parseInt(commandArr[1].substring(1)) - 1;
+//			int colNum = Character.toUpperCase(commandArr[1].charAt(0)) - 'A';
 			cellArr[rowNum][colNum] = newCell;
 			return cellArr[rowNum][colNum].fullCellText() + "e";
-		}else if (!(commandArr[1] instanceof String)) {
-			for(int i = 0; i < cellArr.length; i++) {
-				for(int j = 0; j < cellArr[i].length; j++) {
-					cellArr[i][j] = newCell;
-				}
-			}
-			//return STring of grid --- getGridText()
-			return "c";
-		}
-	
-//		if("clear".equals(commandArr[0])) {
-//			for(int i = 0; i < cellArr.length; i++) {
-//				for(int j = 0; j < cellArr[i].length; j++) {
-//					cellArr[i][j] = newCell;
-//				}
-//			}
-//			//return STring of grid --- getGridText()
-//			return "c";
-//		}
-		
-		int colNum = Character.toUpperCase(command.charAt(0)) - 'A';
-		int rowNum = Integer.parseInt(commandArr[0].substring(1)) - 1;
-		
-		if(!command.contains(" ")) {
-			return "a";
-		
-			//return cellArr[rowNum][colNum].fullCellText();
-		}
-		if(commandArr[2] instanceof String) {
+		}else if(commandArr.length == 3) {
 			TextCell textValue = new TextCell(commandArr[2]);
 			cellArr[rowNum][colNum] = textValue;
 			//AND THEN RETURN THE GRID WITH THIS TEXTVALUE IN IT ---getGridText()
 			return "b";
 		}
-			
-		
-		
-		
 		
 		return "wrong";
 	}
