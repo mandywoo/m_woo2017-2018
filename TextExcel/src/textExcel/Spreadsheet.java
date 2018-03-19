@@ -23,10 +23,19 @@ public class Spreadsheet implements Grid
 	@Override
 	public String processCommand(String command)
 	{
+		
+		
+		
 		String[] commandArr = command.split(" ");
 		System.out.println(Arrays.toString(commandArr));
 		SpreadsheetLocation cellLocation;
 		
+//		if(commandArr[2].equals("\"") && commandArr[commandArr.length-1].equals("\"")) {
+//			String spaces = command.substring(command.indexOf("\"")+1,command.indexOf("\""));
+//			cellLocation = new SpreadsheetLocation(commandArr[0]);
+//			textValue = new TextCell(spaces);
+//			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
+//		}
 		
 		if(commandArr.length == 1) {
 			if(commandArr[0].equalsIgnoreCase("clear")) {
@@ -47,22 +56,23 @@ public class Spreadsheet implements Grid
 		}else{
 			TextCell textValue;
 			if(commandArr.length == 3) {
+				
 				textValue = new TextCell(commandArr[2]);
-			}else {
+			}else if(commandArr[2].equals("\"") && commandArr[commandArr.length-1].equals("\"")) {
+				String spaces = command.substring(command.indexOf("\""));
+				spaces = spaces.substring(1, spaces.length()-1);
+				//textValue = new TextCell(spaces);
+				textValue = new TextCell(spaces);
+		    }else{
 				String commandArrElem2 = "";
 				for(int i = 2; i < commandArr.length; i++) {
 					commandArrElem2 += commandArr[i] + " ";
 				}
-				//System.out.println(commandArrElem2);
-				
 				textValue = new TextCell(commandArrElem2);
 			}
-			//System.out.println(textValue.abbreviatedCellText());
-			//System.out.println("full cell Text = " + textValue.fullCellText());
-
 			cellLocation = new SpreadsheetLocation(commandArr[0]);
 			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
-			//System.out.println(textValue.fullCellText() + "a");
+		
 			return getGridText();
 			
 		}
@@ -107,7 +117,7 @@ public class Spreadsheet implements Grid
 			}
 			grid += "\n" + row;
 		}
-		
+		grid += "\n";
 		return grid;
 	}
 
