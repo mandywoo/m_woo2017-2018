@@ -5,15 +5,19 @@ public class TextCell implements Cell{
 	public TextCell(String strAnswer) {
 		this.strAnswer = strAnswer;
 	}
+	
 	public String fullCellText() {
 		return strAnswer;
 	}
+	
+	
 	public String abbreviatedCellText() {
 		String finalStr = null;
 		if(strAnswer.length()>10) {
 			finalStr = strAnswer.substring(1, 11);
 		}else if(strAnswer.length()<10) {
-			finalStr = (strAnswer + "          ").substring(1, 11);
+			String strAnswer1 = strAnswer.substring(0,strAnswer.length()-1);
+			finalStr = (strAnswer1 += "          ").substring(1, 11);
 		}
 		return finalStr;
 	}

@@ -10,7 +10,7 @@ public class Spreadsheet implements Grid
 	private int NUM_ROWS = 20;
 	private int NUM_COLS = 12;
 	private Cell[][] cellArr = new Cell[NUM_ROWS][NUM_COLS];
-	private EmptyCell newCell = new EmptyCell();
+	private Cell newCell = new EmptyCell();
 	public Spreadsheet(){
 		for(int i = 0; i < NUM_ROWS; i++) {
 			for(int j = 0; j < NUM_COLS; j++) {
@@ -24,8 +24,9 @@ public class Spreadsheet implements Grid
 	public String processCommand(String command)
 	{
 		String[] commandArr = command.split(" ");
-
+		System.out.println(Arrays.toString(commandArr));
 		SpreadsheetLocation cellLocation;
+		
 		
 		if(commandArr.length == 1) {
 			if(commandArr[0].equalsIgnoreCase("clear")) {
@@ -43,13 +44,28 @@ public class Spreadsheet implements Grid
 			cellLocation = new SpreadsheetLocation(commandArr[1]);
 			cellArr[cellLocation.getRow()][cellLocation.getCol()] = newCell;
 			return getGridText();
-		}else if(commandArr.length == 3) {
-			TextCell textValue = new TextCell(commandArr[2]);
+		}else{
+			TextCell textValue;
+			if(commandArr.length == 3) {
+				textValue = new TextCell(commandArr[2]);
+			}else {
+				String commandArrElem2 = "";
+				for(int i = 2; i < commandArr.length; i++) {
+					commandArrElem2 += commandArr[i] + " ";
+				}
+				//System.out.println(commandArrElem2);
+				
+				textValue = new TextCell(commandArrElem2);
+			}
+			//System.out.println(textValue.abbreviatedCellText());
+			//System.out.println("full cell Text = " + textValue.fullCellText());
+
 			cellLocation = new SpreadsheetLocation(commandArr[0]);
 			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
+			//System.out.println(textValue.fullCellText() + "a");
 			return getGridText();
+			
 		}
-		return null;
 	}
 
 	@Override
@@ -82,7 +98,7 @@ public class Spreadsheet implements Grid
 		
 		for(int i = 0; i < NUM_ROWS; i++) {
 			String num = Integer.toString(i+1);
-			if(i < 10) {
+			if(i < 9) {
 				num += " ";
 			}
 			String row = num + " |";
