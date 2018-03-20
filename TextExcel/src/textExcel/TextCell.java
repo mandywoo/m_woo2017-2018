@@ -1,19 +1,20 @@
 package textExcel;
 
 public class TextCell implements Cell{
-	String strAnswer;
+	//str for a text cell
+	String text;
 	public TextCell(String strAnswer) {
-		this.strAnswer = strAnswer;
+		this.text = strAnswer;
 	}
 	
 	public String fullCellText() {
-		return strAnswer;
+		return text;
 	}
 	
 	public String abbreviatedCellText() {
 		String finalStr = null;
-		String strAnswer2 = strAnswer.substring(0,strAnswer.length()-1);
-		finalStr = (strAnswer2 += "          ").substring(1, 11);
+		String text2 = text.substring(0,text.length()-1);
+		finalStr = (text2 += "          ").substring(1, 11);
 		return finalStr;
 	}
 }
