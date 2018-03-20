@@ -23,19 +23,11 @@ public class Spreadsheet implements Grid
 	@Override
 	public String processCommand(String command)
 	{
-		
-		
-		
+	
 		String[] commandArr = command.split(" ");
 		System.out.println(Arrays.toString(commandArr));
 		SpreadsheetLocation cellLocation;
 		
-//		if(commandArr[2].equals("\"") && commandArr[commandArr.length-1].equals("\"")) {
-//			String spaces = command.substring(command.indexOf("\"")+1,command.indexOf("\""));
-//			cellLocation = new SpreadsheetLocation(commandArr[0]);
-//			textValue = new TextCell(spaces);
-//			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
-//		}
 		
 		if(commandArr.length == 1) {
 			if(commandArr[0].equalsIgnoreCase("clear")) {
@@ -57,19 +49,28 @@ public class Spreadsheet implements Grid
 			TextCell textValue;
 			if(commandArr.length == 3) {
 				textValue = new TextCell(commandArr[2]);
-			}else if(commandArr[2].equals("\"") && commandArr[commandArr.length-1].equals("\"")) {
+			}else{// if(commandArr[2].equals("\"") && commandArr[commandArr.length-1].equals("\"")) {
 				String spaces = command.substring(command.indexOf("\""));
-				spaces = spaces.substring(1, spaces.length()-1);
+				System.out.println(spaces);
+				spaces = spaces.substring(0, spaces.length());
+				System.out.println(spaces);
 				textValue = new TextCell(spaces);
-		    }else{
-				String commandArrElem2 = "";
-				for(int i = 2; i < commandArr.length; i++) {
-					commandArrElem2 += commandArr[i];
-					if(i < commandArr.length-1) {
-						commandArrElem2 +=" ";
-					}
-				}
-				textValue = new TextCell(commandArrElem2);
+				System.out.println(textValue.abbreviatedCellText());
+				System.out.println("a");
+//		    }else{
+//				String commandArrElem2 = "";
+//				for(int i = 2; i < commandArr.length; i++) {
+//					commandArrElem2 += commandArr[i];
+//					if(i < commandArr.length-1) {
+//						commandArrElem2 +=" ";
+//					}
+//				}
+//				textValue = new TextCell(commandArrElem2);
+		    	
+//		    		String spaces = command.substring(command.indexOf("\""));
+		   // 		System.out.println(command.substring(command.indexOf("\"")));
+//				spaces = spaces.substring(0, spaces.length()-1);
+//				textValue = new TextCell(spaces);
 			}
 			cellLocation = new SpreadsheetLocation(commandArr[0]);
 			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
