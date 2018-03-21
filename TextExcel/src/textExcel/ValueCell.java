@@ -9,7 +9,7 @@ public class ValueCell extends RealCell{
 
 	@Override
 	public String abbreviatedCellText() {
-		String num = getCommand();
+		String num = Double.toString(getDoubleValue());
 		return (num += "          ").substring(0, 10);
 	}
 

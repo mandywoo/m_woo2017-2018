@@ -2,6 +2,8 @@ package textExcel;
 
 import java.util.Arrays;
 
+import com.sun.xml.internal.ws.util.StringUtils;
+
 // Update this file with your own code.
 
 public class Spreadsheet implements Grid
@@ -52,16 +54,36 @@ public class Spreadsheet implements Grid
 			cellArr[cellLocation.getRow()][cellLocation.getCol()] = newCell;
 			return getGridText();
 		}else{
-			TextCell textValue;
-			if(commandArr.length == 3) {
-				textValue = new TextCell(commandArr[2]);
-			}else{
-				String str = command.substring(command.indexOf("\""));
-				str = str.substring(0, str.length());
-				textValue = new TextCell(str);
-			}
 			cellLocation = new SpreadsheetLocation(commandArr[0]);
-			cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
+			//TextCell
+			if(command.contains("\"")) {
+				TextCell textValue;
+				if(commandArr.length == 3) {
+					textValue = new TextCell(commandArr[2]);
+				}else{
+					String str = command.substring(command.indexOf("\""));
+					str = str.substring(0, str.length());
+					textValue = new TextCell(str);
+				}
+				
+				cellArr[cellLocation.getRow()][cellLocation.getCol()] = textValue;
+				
+			}else {
+				//RealCell
+				String num = command.substring(command.indexOf(commandArr[2]));
+				RealCell numValue;
+				if(num.contains("%")) {
+					 numValue = new PercentCell(num);
+					 
+				}else if(num.contains("(")) {
+					numValue = new FormulaCell(num);
+					System.out.println(numValue.fullCellText());
+					System.out.println(numValue.getDoubleValue());
+				}else {
+					numValue = new ValueCell(num);
+				}
+				cellArr[cellLocation.getRow()][cellLocation.getCol()] = numValue;
+			}
 			return getGridText();
 		}
 	}
