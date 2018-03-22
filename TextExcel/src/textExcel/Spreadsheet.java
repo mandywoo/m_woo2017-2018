@@ -73,12 +73,9 @@ public class Spreadsheet implements Grid
 				String num = command.substring(command.indexOf(commandArr[2]));
 				RealCell numValue;
 				if(num.contains("%")) {
-					 numValue = new PercentCell(num);
-					 
+					 numValue = new PercentCell(num);	 
 				}else if(num.contains("(")) {
 					numValue = new FormulaCell(num);
-					System.out.println(numValue.fullCellText());
-					System.out.println(numValue.getDoubleValue());
 				}else {
 					numValue = new ValueCell(num);
 				}

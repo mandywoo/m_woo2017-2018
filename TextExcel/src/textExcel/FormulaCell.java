@@ -15,8 +15,12 @@ public class FormulaCell extends RealCell{
 	@Override
 	public double getDoubleValue() {
 		String[] formula = getCommand().split(" ");
+//		if(formula[1].matches(".*[A-L].*")) {
+//			SpreadsheetLocation cellLocation = new SpreadsheetLocation(formula[1]);
+//			
+//		}
 		double answer = Double.parseDouble(formula[1]);
-		for(int i = 0; i < formula.length-1; i+=2) {
+		for(int i = 0; i < formula.length-3; i+=2) {
 			String operator = formula[i+2];
 			double num = Double.parseDouble(formula[i+3]);
 			if(operator.equals("+")) {
@@ -28,8 +32,7 @@ public class FormulaCell extends RealCell{
 			}else if(operator.equals("/")) {
 				answer /= num;
 			}
-		} 
-		
+		} 	
 		return answer;
 	}
 
