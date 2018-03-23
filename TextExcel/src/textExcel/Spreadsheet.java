@@ -46,7 +46,8 @@ public class Spreadsheet implements Grid
 			}else {
 				//Get value at location
 				cellLocation = new SpreadsheetLocation(commandArr[0]);
-				return cellArr[cellLocation.getRow()][cellLocation.getCol()].fullCellText();
+				return getCell(cellLocation).fullCellText();
+				//return cellArr[cellLocation.getRow()][cellLocation.getCol()].fullCellText();
 			}
 		//Clear location
 		}else if(commandArr.length == 2) {
