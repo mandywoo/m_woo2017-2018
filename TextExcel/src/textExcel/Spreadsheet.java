@@ -76,7 +76,22 @@ public class Spreadsheet implements Grid
 				if(num.contains("%")) {
 					 numValue = new PercentCell(num);	 
 				}else if(num.contains("(")) {
-					numValue = new FormulaCell(num);
+					String joinedNumFormula = "";
+					String[] formula = num.split(" ");
+					for(int i = 0; i < formula.length; i++) {	
+						if(formula[i].matches(".*[A-L].*") || formula[i].matches(".*[a-l].*")) {
+							cellLocation = new SpreadsheetLocation(formula[i]);
+							Cell value = getCell(cellLocation);
+						    double locationToNum = ((RealCell) value).getDoubleValue();
+						    formula[i] = Double.toString(locationToNum);
+						}
+						joinedNumFormula += formula[i];
+						if(i != formula.length-1) {
+							joinedNumFormula += " ";
+						}
+					}
+					numValue = new FormulaCell(joinedNumFormula);
+					//numValue = new FormulaCell(num);
 				}else {
 					numValue = new ValueCell(num);
 				}

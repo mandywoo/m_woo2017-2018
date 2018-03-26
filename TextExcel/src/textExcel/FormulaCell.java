@@ -15,20 +15,21 @@ public class FormulaCell extends RealCell{
 	@Override
 	public double getDoubleValue() {
 		String[] formula = getCommand().split(" ");
-		double answer;
-		if(formula[1].matches(".*[A-L].*") || formula[1].matches(".*[a-l].*")) {
-			SpreadsheetLocation cellLocation = new SpreadsheetLocation(formula[1]);
-			Spreadsheet spreadsheet = null;
-			Cell value = spreadsheet.getCell(cellLocation);
-		    answer = ((RealCell) value).getDoubleValue();
-		    System.out.println(answer);
-			System.out.println("a");
-			
-		}else {
-			answer = Double.parseDouble(formula[1]);
-		}
+		//double answer;
+		
+//		if(formula[1].matches(".*[A-L].*") || formula[1].matches(".*[a-l].*")) {
+//			SpreadsheetLocation cellLocation = new SpreadsheetLocation(formula[1]);
+//			Cell value = Spreadsheet.getCell(cellLocation);
+//		    answer = ((RealCell) value).getDoubleValue();
+//		    System.out.println(answer);
+//			System.out.println("a");
+//			
+//		}else {
+//			answer = Double.parseDouble(formula[1]);
+//		}
+		
 		//double answer = 100.0;
-		//double answer = Double.parseDouble(formula[1]);
+		double answer = Double.parseDouble(formula[1]);
 		for(int i = 0; i < formula.length-3; i+=2) {
 			String operator = formula[i+2];
 			double num = Double.parseDouble(formula[i+3]);
