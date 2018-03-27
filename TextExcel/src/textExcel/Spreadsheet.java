@@ -71,7 +71,15 @@ public class Spreadsheet implements Grid
 				
 			}else {
 				//RealCell
-				String num = command.substring(command.indexOf(commandArr[2]));
+				String num = "";
+				for(int i = 2; i < commandArr.length; i++) {
+					num += commandArr[i];
+					if(i != commandArr.length-1) {
+						num += " ";
+					}
+				}
+				//String num = command.substring(command.indexOf(commandArr[2]);
+				//String num = command.substring(command.indexOf(commandArr[2], command.indexOf(commandArr[2])+1));
 				RealCell numValue;
 				if(num.contains("%")) {
 					 numValue = new PercentCell(num);	 
@@ -89,12 +97,15 @@ public class Spreadsheet implements Grid
 						if(i != formula.length-1) {
 							joinedNumFormula += " ";
 						}
+						
 					}
+					
 					numValue = new FormulaCell(joinedNumFormula);
 					//numValue = new FormulaCell(num);
 				}else {
 					numValue = new ValueCell(num);
 				}
+				cellLocation = new SpreadsheetLocation(commandArr[0]);
 				cellArr[cellLocation.getRow()][cellLocation.getCol()] = numValue;
 			}
 			return getGridText();
