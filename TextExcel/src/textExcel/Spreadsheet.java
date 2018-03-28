@@ -15,15 +15,16 @@ public class Spreadsheet implements Grid
 	private Cell[][] cellArr = new Cell[NUM_ROWS][NUM_COLS];
 	//Creates new empty cell
 	private Cell newCell = new EmptyCell();
+
 	//Fills 2D array with empty cells
 	public Spreadsheet(){
 		for(int i = 0; i < NUM_ROWS; i++) {
-			for(int j = 0; j < NUM_COLS; j++) {
-				
+			for(int j = 0; j < NUM_COLS; j++) {			
 				cellArr[i][j] = newCell;
 			}
 		}
 	}
+	
 	
 	//Takes user input and processes it
 	@Override
@@ -47,7 +48,6 @@ public class Spreadsheet implements Grid
 				//Get value at location
 				cellLocation = new SpreadsheetLocation(commandArr[0]);
 				return getCell(cellLocation).fullCellText();
-				//return cellArr[cellLocation.getRow()][cellLocation.getCol()].fullCellText();
 			}
 		//Clear location
 		}else if(commandArr.length == 2) {
@@ -78,30 +78,11 @@ public class Spreadsheet implements Grid
 						num += " ";
 					}
 				}
-				//String num = command.substring(command.indexOf(commandArr[2]);
-				//String num = command.substring(command.indexOf(commandArr[2], command.indexOf(commandArr[2])+1));
 				RealCell numValue;
 				if(num.contains("%")) {
 					 numValue = new PercentCell(num);	 
 				}else if(num.contains("(")) {
-					String joinedNumFormula = "";
-					String[] formula = num.split(" ");
-					for(int i = 0; i < formula.length; i++) {	
-						if(formula[i].matches(".*[A-L].*") || formula[i].matches(".*[a-l].*")) {
-							cellLocation = new SpreadsheetLocation(formula[i]);
-							Cell value = getCell(cellLocation);
-						    double locationToNum = ((RealCell) value).getDoubleValue();
-						    formula[i] = Double.toString(locationToNum);
-						}
-						joinedNumFormula += formula[i];
-						if(i != formula.length-1) {
-							joinedNumFormula += " ";
-						}
-						
-					}
-					
-					numValue = new FormulaCell(joinedNumFormula);
-					//numValue = new FormulaCell(num);
+					numValue = new FormulaCell(num, this);
 				}else {
 					numValue = new ValueCell(num);
 				}
