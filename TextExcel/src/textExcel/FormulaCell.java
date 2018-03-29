@@ -65,7 +65,7 @@ public class FormulaCell extends RealCell{
 		if(formula[1].equals("AVG")) {
 			//sum divided by counter
 			
-			//ignore test
+			//ignore test 1
 		}
 		//convertArrToNum(formula);
 		
