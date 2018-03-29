@@ -27,27 +27,49 @@ public class FormulaCell extends RealCell{
 			
 			SpreadsheetLocation cell1Loc = new SpreadsheetLocation(cell1);
 			SpreadsheetLocation cell2Loc = new SpreadsheetLocation(cell2);
-			int numCols = cell2Loc.getCol()-cell1Loc.getCol();
-			int numRows = cell2Loc.getRow()-cell1Loc.getRow();
-
-			System.out.println("cell2 Row: " + cell2Loc.getRow() + "   cell2 Column: " + cell2Loc.getCol());
-//			String[] numArr = new String[numCols*numRows];
-//			int numArrCounter = 0;
-//			for(int i = cell1Loc.getCol(); i < cell2Loc.getCol(); i++) {
-//				for(int j = cell1Loc.getRow(); j < cell2Loc.getRow(); j++) {
-//					//SpreadsheetLocation cellLoc = new SpreadsheetLocation(cell1);
-//					numArr[numArrCounter] += spreadsheet.getCell(cell1Loc);
-//				}
+			int numCols = cell2Loc.getCol()-cell1Loc.getCol()+1;
+			int numRows = cell2Loc.getRow()-cell1Loc.getRow()+1;
+//			System.out.println(numCols);
+//			System.out.println(numRows);
+//			System.out.println("cell2 Row: " + cell2Loc.getRow() + "   cell2 Column: " + cell2Loc.getCol());
+			String[] numArr = new String[numCols*numRows];
+		
+//			System.out.println(numArr.length);
+			
+//			System.out.println(cell1Loc.getRow());
+//			System.out.println(cell2Loc.getRow());
+//			int counter = 0;
+//			for(int i = cell1Loc.getRow(); i <= cell2Loc.getRow(); i++) {
+//				System.out.println(cell1Loc.getRow());
+//				System.out.println(cell2Loc.getRow());
+//				numArr[counter]="a";
+//				counter++;
 //			}
-//			System.out.println(Arrays.toString(numArr));
+			
+			int numArrCounter = 0;
+			for(int i = cell1Loc.getCol()+65; i <= cell2Loc.getCol()+65; i++) {
+				for(int j = cell1Loc.getRow()+1; j <= cell2Loc.getRow()+1; j++) {
+					System.out.println("COL: "+i);
+					System.out.println("ROW: "+j);
+					String cellId = "" + (char)i + j;
+					System.out.println(cellId);
+					SpreadsheetLocation cellLoc = new SpreadsheetLocation(cellId);
+					numArr[numArrCounter] += spreadsheet.getCell(cellLoc);
+					numArrCounter++;
+				}
+			}
+			System.out.println(Arrays.toString(numArr));
+			//add all numbers
+			
 		}
 		if(formula[1].equals("AVG")) {
 			//sum divided by counter
 		}
-		convertArrToNum(formula);
+		//convertArrToNum(formula);
 		
 
-		return doOperation(formula);
+		//return doOperation(formula);
+		return 0;
 	}
 
 	public String[] convertArrToNum(String[] formula) {
