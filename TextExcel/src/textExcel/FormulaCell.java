@@ -96,6 +96,7 @@ public class FormulaCell extends RealCell{
 			String operator = formula[i+2];
 			//numbers are on odd indexes
 			double num = Double.parseDouble(formula[i+3]);
+			//does operations
 			if(operator.equals("+")) {
 				answer += num;
 			}else if(operator.equals("-")) {
