@@ -2,6 +2,7 @@ package textExcel;
 import java.util.Arrays;
 
 public class FormulaCell extends RealCell{
+	//spreadsheet field to hold current spreadsheet to use getCell in Spreadsheet
 	private Spreadsheet spreadsheet;
 	public FormulaCell(String command, Spreadsheet spreadsheet) {
 		super(command);
@@ -18,69 +19,69 @@ public class FormulaCell extends RealCell{
 	@Override
 	public double getDoubleValue() {
 		String[] formula = getCommand().split(" ");
-		if(formula[1].equals("SUM") || formula[1].equals("AVG")){
+		//calculates sum and avg
+		if(formula[1].equalsIgnoreCase("SUM") || formula[1].equalsIgnoreCase("AVG")){
+			//Split to find location
 			String[] numBlockLoc = formula[2].split("-");
 			String cell1 = numBlockLoc[0];
-			String cell2 = numBlockLoc[1];
-			
-			//find sum and keep counter
-			
+			String cell2 = numBlockLoc[1];		
+			//create cell locations
 			SpreadsheetLocation cell1Loc = new SpreadsheetLocation(cell1);
 			SpreadsheetLocation cell2Loc = new SpreadsheetLocation(cell2);
+			//get number of rows and columns to get length of array
 			int numCols = cell2Loc.getCol()-cell1Loc.getCol()+1;
 			int numRows = cell2Loc.getRow()-cell1Loc.getRow()+1;
-//			System.out.println(numCols);
-//			System.out.println(numRows);
-//			System.out.println("cell2 Row: " + cell2Loc.getRow() + "   cell2 Column: " + cell2Loc.getCol());
-			String[] numArr = new String[numCols*numRows];
-		
-//			System.out.println(numArr.length);
-			
-//			System.out.println(cell1Loc.getRow());
-//			System.out.println(cell2Loc.getRow());
-//			int counter = 0;
-//			for(int i = cell1Loc.getRow(); i <= cell2Loc.getRow(); i++) {
-//				System.out.println(cell1Loc.getRow());
-//				System.out.println(cell2Loc.getRow());
-//				numArr[counter]="a";
-//				counter++;
-//			}
-			
+			Cell[] numArr = new Cell[numCols*numRows];
+
+			//index of array
 			int numArrCounter = 0;
+			
 			for(int i = cell1Loc.getCol()+65; i <= cell2Loc.getCol()+65; i++) {
 				for(int j = cell1Loc.getRow()+1; j <= cell2Loc.getRow()+1; j++) {
-					System.out.println("COL: "+i);
-					System.out.println("ROW: "+j);
+					//recreate String of cell location that can change with for loop
 					String cellId = "" + (char)i + j;
-					System.out.println(cellId);
+					//create the cell location
 					SpreadsheetLocation cellLoc = new SpreadsheetLocation(cellId);
-					numArr[numArrCounter] += spreadsheet.getCell(cellLoc);
+					//add cell to array
+					numArr[numArrCounter] = spreadsheet.getCell(cellLoc);
+					//index++
 					numArrCounter++;
 				}
 			}
-			System.out.println(Arrays.toString(numArr));
-			//add all numbers
 			
-		}
-		if(formula[1].equals("AVG")) {
-			//sum divided by counter
+			//sum
+			double sum = 0;
+			//add the double value of the cell to sum
+			for(Cell num: numArr) {
+				sum += ((RealCell)num).getDoubleValue();
+			}	
 			
-			//ignore test 1
+			//if avg then sum divided by length of arrays which is also the number of doubles
+			if(formula[1].equalsIgnoreCase("AVG")) {
+				//sum divided by counter
+				sum = sum/numArrCounter;
+			}
+			
+			//returns sum or average
+			return sum;
+		}else {
+			//if no sum or avg then just convert and perform operations
+			convertArrToNum(formula);
+			return doOperation(formula);
 		}
-		//convertArrToNum(formula);
-		
-
-		//return doOperation(formula);
-		return 0;
 	}
 
+	//if formula has array locations, this converts the locations to numbers
 	public String[] convertArrToNum(String[] formula) {
 		for(int i = 0; i < formula.length; i++) {	
 			if(formula[i].matches(".*[A-L].*") || formula[i].matches(".*[a-l].*")) {
+				//creates spreadsheet location from the string cell location
 				SpreadsheetLocation cellLocation = new SpreadsheetLocation(formula[i]);
-				
+				//creates new cell that stores the cell at cellLocation
 				Cell value = spreadsheet.getCell(cellLocation);
+				//the new cell in converted to a real cell so we can get its double value
 			    double locationToNum = ((RealCell) value).getDoubleValue();
+			    //the formula array is then filled with the number
 			    formula[i] = Double.toString(locationToNum);
 			}
 		}
@@ -88,9 +89,12 @@ public class FormulaCell extends RealCell{
 	}
 	
 	public double doOperation(String[] formula) {
+		//answer starts with first number
 		double answer = Double.parseDouble(formula[1]);
 		for(int i = 0; i < formula.length-3; i+=2) {
+			//operator is at even indexes
 			String operator = formula[i+2];
+			//numbers are on odd indexes
 			double num = Double.parseDouble(formula[i+3]);
 			if(operator.equals("+")) {
 				answer += num;
