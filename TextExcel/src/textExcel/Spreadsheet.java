@@ -1,3 +1,5 @@
+//Mandy Woo
+
 package textExcel;
 
 import java.util.Arrays;
@@ -14,13 +16,13 @@ public class Spreadsheet implements Grid
 	//Creates new 2D array to hold all values
 	private Cell[][] cellArr = new Cell[NUM_ROWS][NUM_COLS];
 	//Creates new empty cell
-	private Cell newCell = new EmptyCell();
+	private Cell newEmptyCell = new EmptyCell();
 
 	//Fills 2D array with empty cells
 	public Spreadsheet(){
 		for(int i = 0; i < NUM_ROWS; i++) {
 			for(int j = 0; j < NUM_COLS; j++) {			
-				cellArr[i][j] = newCell;
+				cellArr[i][j] = newEmptyCell;
 			}
 		}
 	}
@@ -40,7 +42,7 @@ public class Spreadsheet implements Grid
 			if(commandArr[0].equalsIgnoreCase("clear")) {
 				for(int i = 0; i < cellArr.length; i++) {
 					for(int j = 0; j < cellArr[i].length; j++) {
-						cellArr[i][j] = newCell;
+						cellArr[i][j] = newEmptyCell;
 					}
 				}
 				return getGridText();
@@ -52,7 +54,7 @@ public class Spreadsheet implements Grid
 		//Clear location
 		}else if(commandArr.length == 2) {
 			cellLocation = new SpreadsheetLocation(commandArr[1]);
-			cellArr[cellLocation.getRow()][cellLocation.getCol()] = newCell;
+			cellArr[cellLocation.getRow()][cellLocation.getCol()] = newEmptyCell;
 			return getGridText();
 		}else{
 			cellLocation = new SpreadsheetLocation(commandArr[0]);

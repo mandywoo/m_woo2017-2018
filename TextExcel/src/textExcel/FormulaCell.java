@@ -1,7 +1,9 @@
+//Mandy Woo
+
 package textExcel;
 import java.util.Arrays;
 
-//test////////
+
 
 public class FormulaCell extends RealCell{
 	//spreadsheet field to hold current spreadsheet to use getCell in Spreadsheet
